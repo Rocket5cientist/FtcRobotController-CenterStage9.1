@@ -31,7 +31,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
     public Intake intake;
     public SpikeHook spike;
     public IntakeHoist hoist;
-    //public BNO055IMU imu;
+    //public BNO055IMU imu*;
     public BHI260IMU imu;
     public Orientation angles;
 

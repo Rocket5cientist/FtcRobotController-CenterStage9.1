@@ -62,7 +62,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
             driveOne.add(new SpikeDrop(new IndexTrigger(3, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
-            driveOne.add(new Drive(new IndexTriggerWithDelay(5, 300, driveOne), 6, 0.35, 0));
+            driveOne.add(new Drive(new IndexTriggerWithDelay(5, 300, driveOne), 7, 0.35, 0));
             driveOne.add(new Drive(new IndexTrigger(6, driveOne), 4, 0.4, 270));
 
 
@@ -78,7 +78,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
             driveOne.add(new Drive(new IndexTrigger(4, driveOne), 4, 0.25, 270));
             //driveOne.add(new CatWalk(new IndexTrigger(5, driveOne), 23, 20.5, 0.4, 90, 1.2, new Vision()));
-            driveOne.add(new Strafe(new IndexTrigger(5, driveOne), 19.5, -0.4, 270, -1));
+            driveOne.add(new Strafe(new IndexTrigger(5, driveOne), 20.5, -0.4, 270, -1));
 
             //driveOne.add(new MoveHoist(new IndexTrigger(6, driveOne), hoist.stackPosition5));
             //driveOne.add(new MoveIntake(new IndexTrigger(6, driveOne), 1500));
@@ -104,8 +104,6 @@ public class BlueRight2_3 extends AutoControlsCombined {
         //Drive back toward backboard
         driveTwo.add(new MoveIntake(new IndexTrigger(1, driveTwo), 2000));
         driveTwo.add(new Drive(new IndexTrigger(1, driveTwo), -100, 1, 270));
-
-        //CHANGE FOR THOR
 
         driveTwo.add(new MoveLift(new IndexTrigger(3, driveTwo), lift.liftLow + 1, 0));
 
@@ -148,13 +146,13 @@ public class BlueRight2_3 extends AutoControlsCombined {
             }
             if (spikeLocation == 2) {
                 //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 23, 0.5, 90, 0.5, new Vision(), 1));
-                StrafeWithInchesWithCorrection(23, -0.5, -1, 270);
+                StrafeWithInchesWithCorrection(24, -0.5, -1, 270);
 
                 DriveWithCorrection(80, 270, 0.9);
             }
             if (spikeLocation == 3) {
                 //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 29, 0.5, 90, 0.5, new Vision(), 1));
-                StrafeWithInchesWithCorrection(17, -0.5, -1, 270);
+                StrafeWithInchesWithCorrection(19, -0.5, -1, 270);
 
                 DriveWithCorrection(80, 270, 0.9);
             }

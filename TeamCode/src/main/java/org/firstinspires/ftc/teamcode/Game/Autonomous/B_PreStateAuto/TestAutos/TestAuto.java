@@ -34,7 +34,8 @@ public class TestAuto extends AutoControlsCombined {
         //Distance Sensor Telemetry
         while (opModeIsActive()) {
 
-            angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             double currentHeading = (360 + angles.firstAngle) % 360;
 

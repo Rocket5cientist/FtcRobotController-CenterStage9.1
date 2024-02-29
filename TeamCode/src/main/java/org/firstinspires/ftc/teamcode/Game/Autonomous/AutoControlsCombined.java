@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.Game.Autonomous;
 
 import com.qualcomm.hardware.bosch.BHI260IMU;
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -31,8 +33,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
     public Intake intake;
     public SpikeHook spike;
     public IntakeHoist hoist;
-    //public BNO055IMU imu;
-    public BHI260IMU imu;
+    public BNO055IMU imu;
+    //public BHI260IMU imu;
     public Orientation angles;
 
     public double DISTANCE_TOLERANCE = 0.5;
@@ -65,7 +67,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
 
 
     public void initIMU() {
-        /*
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
@@ -76,13 +78,13 @@ public abstract class AutoControlsCombined extends LinearOpMode {
 
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        */
 
-        BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
+
+        /*BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT, RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD));
 
 
         imu = hardwareMap.get(BHI260IMU.class, "imu");
-        imu.initialize(parameters);
+        imu.initialize(parameters);*/
     }
     public void switchToContourPipeline() {
         robot.switchPipeline();
@@ -158,7 +160,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         double degreesOff;
         boolean goRight;
 
-        angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         currentHeading = (360 + angles.firstAngle) % 360;
 
@@ -201,7 +204,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         double currentHeading;
         double degreesOff;
 
-        angles   = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        //angles   = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        angles   = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
         currentHeading = (360 + angles.firstAngle) % 360;
 
@@ -415,7 +419,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         double targetPower;
         double power = minPower;
 
-        double headingAdjustmentMultiplier = 2.5;
+        double headingAdjustmentMultiplier = 2.25;
         double targetHeading;
         public Drive(Trigger triggerPARAM, double targetInchesPARAM, double powerPARAM, double targetHeadingPARAM) {
             super(triggerPARAM, true);
@@ -475,8 +479,6 @@ public abstract class AutoControlsCombined extends LinearOpMode {
             currentInches = GetAverageWheelPositionInches();
             distanceToTarget = targetInches - currentInches;
 
-            //telemetry.addData("compare", currentInchesCompare);
-            //telemetry.update();
             //acceleration
             if (Math.abs(targetInches) > 70 && Math.abs(distanceToTarget) / Math.abs(targetInches) < 0.25) {
                 power -= 0.05;
@@ -508,7 +510,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
                 double turnAdjustment;
                 turnAdjustment = headingAdjustment(targetHeading, 0);
 
-                angles = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
                 double currentHeading = (360 + angles.firstAngle) % 360;
 
@@ -579,7 +582,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
                 robot.backRight.setPower(rrPower);
 
 
-                angles = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
                 currentHeading = (360 + angles.firstAngle) % 360;
 
@@ -612,7 +616,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
                 robot.backRight.setPower(rrPower * 1.08);
 
 
-                angles = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
                 currentHeading = (360 + angles.firstAngle) % 360;
                 if (currentHeading == lastAngle) {
@@ -956,7 +961,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
             robot.backRight.setPower(rrPower);
 
 
-            angles = imu.getRobotOrientation(AxesReference.EXTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             currentHeading = (360 + angles.firstAngle) % 360;
             if (currentHeading == lastAngle) {
@@ -992,7 +998,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
 
 
         double reverse;
-        double headingAdjustmentMultiplier = 2.5;
+        double headingAdjustmentMultiplier = 2.25;
 
         currentInches = GetAverageWheelPositionInches();
         distanceToTarget = targetInches - currentInches;
@@ -1031,7 +1037,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
             double turnAdjustment;
             turnAdjustment = headingAdjustment(targetHeading, 0);
 
-            angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
             double currentHeading = (360 + angles.firstAngle) % 360;
 
             currentInches = GetAverageWheelPositionInches();
@@ -1194,7 +1201,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         double currentHeading = 0;
 
         for (int i = 0; i < 50; i++) {
-            angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
             currentHeading = (360 + angles.firstAngle) % 360;
 
@@ -1346,11 +1354,20 @@ public abstract class AutoControlsCombined extends LinearOpMode {
 
             currentStrafeInches =  GetAverageStrafePositionInches();
             strafeDistanceToTarget = (targetStrafeInches * Math.signum(power)) - currentStrafeInches;
+            if (motorPower < 0) {
+                if (robot.leftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance) {
 
-            if (robot.leftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance || robot.rightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance) {
+                    motorPower = 0;
+                    turnAdjustment = 0;
+                }
+            }
 
-                motorPower = 0;
-                turnAdjustment = 0;
+            if (motorPower > 0) {
+                if (robot.rightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance) {
+
+                    motorPower = 0;
+                    turnAdjustment = 0;
+                }
             }
 
             robot.frontLeft.setPower(motorPower + turnAdjustment);

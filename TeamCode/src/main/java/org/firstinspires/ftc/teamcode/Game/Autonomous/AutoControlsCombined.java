@@ -495,7 +495,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
             }
 
 
-            while (robot.backLeftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance && robot.backRightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance && Math.abs(targetInches) > 70 && opModeIsActive()) {
+            while ((/*robot.backLeftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance || */robot.backRightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance) && Math.abs(targetInches) > 70 && opModeIsActive()) {
 
                     robot.frontLeft.setPower(0);
                     robot.frontRight.setPower(0);
@@ -1025,7 +1025,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
 
             }
 
-            while (robot.backLeftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance && robot.backRightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance && Math.abs(targetInches) > 70 && opModeIsActive()) {
+            while ((/*robot.backLeftDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance || */robot.backRightDS.getDistance(DistanceUnit.INCH) < distanceSensorTolerance) && Math.abs(targetInches) > 70 && opModeIsActive()) {
 
                 robot.frontLeft.setPower(0);
                 robot.frontRight.setPower(0);

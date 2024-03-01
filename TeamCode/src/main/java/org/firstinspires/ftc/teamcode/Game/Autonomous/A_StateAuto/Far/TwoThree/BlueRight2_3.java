@@ -50,7 +50,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
             driveOne.add(new Strafe(new IndexTrigger(1, driveOne), 4.5, 0.4, 0, -1));
             driveOne.add(new SpikeDrop(new IndexTrigger(2, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
-            driveOne.add(new Drive(new IndexTriggerWithDelay(3, 400, driveOne), 7, 0.25, 0));
+            driveOne.add(new Drive(new IndexTriggerWithDelay(3, 400, driveOne), 8, 0.25, 0));
             driveOne.add(new Drive(new IndexTrigger(5, driveOne), -2, 0.4, 270));
         }
 

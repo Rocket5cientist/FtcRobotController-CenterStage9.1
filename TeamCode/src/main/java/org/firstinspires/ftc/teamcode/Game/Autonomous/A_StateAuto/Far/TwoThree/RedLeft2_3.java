@@ -27,7 +27,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
             telemetry.addData("arducam fps: ", robot.visionPortal.getFps());
             telemetry.addData("webcam fps: ", robot.webcam.getFps());
 
-            if (robot.webcam.getFps() == 0.0) {
+            /*if (robot.webcam.getFps() == 0.0) {
                 sleep(1000);
                 robot.webcam.closeCameraDevice();
                 sleep(1000);
@@ -35,7 +35,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
                 telemetry.addData("webcam reset", "Reset");
                 telemetry.update();
                 sleep(1000);
-            }
+            }*/
             if (robot.visionPortal.getFps() == 0.0) {
                 sleep(1000);
                 robot.visionPortal.close();
@@ -51,7 +51,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
         //waitForStart();
         switchToContourPipeline();
 
-        if (robot.webcam.getFps() == 0.0) {
+        /*if (robot.webcam.getFps() == 0.0) {
             sleep(1000);
             robot.webcam.closeCameraDevice();
             sleep(1000);
@@ -59,7 +59,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
             telemetry.addData("webcam reset", "Reset");
             telemetry.update();
             sleep(1000);
-        }
+        }*/
 
         Motion driveOne = new Motion();
         if (spikeLocation == 1) {
@@ -90,7 +90,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
             //Initial Spike drop
             //Take first pixel from stack
             driveOne.add(new MoveHoist(new MillisecondTrigger(0), hoist.hoistedPosition));
-            driveOne.add(new Drive(new MillisecondTrigger(0), 26.25, 0.5, 0));
+            driveOne.add(new Drive(new MillisecondTrigger(0), 27, 0.5, 0));
             driveOne.add(new Drive(new IndexTrigger(1, driveOne), -1, 0.4, 90));
             driveOne.add(new SpikeDrop(new IndexTrigger(2, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
@@ -121,7 +121,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
 
             //Drive back toward backboard
             driveTwo.add(new MoveIntake(new IndexTrigger(1, driveTwo), 2000));
-            driveTwo.add(new Drive(new IndexTrigger(1, driveTwo), -100, 1, 90));
+            driveTwo.add(new Drive(new IndexTrigger(1, driveTwo), -103, 1, 90));
             driveTwo.add(new MoveLift(new IndexTrigger(3, driveTwo), lift.liftLow - 1, 0));
             //driveTwo.add(new CatWalk(new IndexTrigger(1, driveTwo), -28, -28, 0.5, 90, 0.5, new Vision()));
 

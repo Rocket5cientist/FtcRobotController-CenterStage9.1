@@ -434,7 +434,7 @@ public class Robot {
         }
     }
     public class SpikeHook {
-        public double spikeUp = 0.22;
+        public double spikeUp = 0.35;
         public double spikeDropped = 0.65;
 
         public SpikeHook() {

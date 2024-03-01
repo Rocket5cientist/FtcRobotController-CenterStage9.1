@@ -282,6 +282,11 @@ public class GameTeleop extends LinearOpMode {
 
             telemetry.addData("Manual Lift Mode: ", manualLiftMode);
             telemetry.addData("Timer: ", robot.gameTimer.seconds());
+            telemetry.addData("Front Left", lfPower * multiplier);
+            telemetry.addData("Front Right", rfPower * multiplier);
+            telemetry.addData("Rear Left", lrPower * multiplier);
+            telemetry.addData("Rear Right", lfPower * multiplier);
+
             telemetry.update();
         }
     }

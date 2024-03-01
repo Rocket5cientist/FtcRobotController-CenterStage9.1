@@ -27,6 +27,8 @@ public class TestAuto extends AutoControlsCombined {
             telemetry.addData("White One: ", robot.whiteOne);
             telemetry.addData("White Two: ", robot.whiteTwo);
             telemetry.update();
+
+            robot.OFFSET = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         }
 
         waitForStart();
@@ -34,10 +36,10 @@ public class TestAuto extends AutoControlsCombined {
         //Distance Sensor Telemetry
         while (opModeIsActive()) {
 
-            //angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-            angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            //angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            double currentHeading = (360 + angles.firstAngle) % 360;
+            double currentHeading = (360 + angles.firstAngle - robot.OFFSET) % 360;
 
             telemetry.addData("heading", currentHeading);
             telemetry.update();

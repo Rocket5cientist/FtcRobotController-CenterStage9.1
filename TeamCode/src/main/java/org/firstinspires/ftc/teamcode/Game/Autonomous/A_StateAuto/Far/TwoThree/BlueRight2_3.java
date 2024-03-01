@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Game.Autonomous.A_StateAuto.Far.TwoThree;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Game.Autonomous.AutoControlsCombined;
 
 @Autonomous(name = "BlueRight 2+3", group = "Far")
@@ -24,7 +27,8 @@ public class BlueRight2_3 extends AutoControlsCombined {
             telemetry.addData("White One: ", robot.whiteOne);
             telemetry.addData("White Two: ", robot.whiteTwo);
             telemetry.addData("White Three: ", robot.whiteThree);
-            telemetry.addData("fps: ", robot.visionPortal.getFps());
+            telemetry.addData("arducam fps: ", robot.visionPortal.getFps());
+            telemetry.addData("webcam fps: ", robot.webcam.getFps());
 
             if (robot.visionPortal.getFps() == 0.0) {
                 sleep(1000);
@@ -35,12 +39,13 @@ public class BlueRight2_3 extends AutoControlsCombined {
                 telemetry.update();
                 sleep(1000);
             }
-
+            robot.OFFSET = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             telemetry.update();
         }
 
         //waitForStart();
         switchToContourPipeline();
+        robot.gameTimer.reset();
 
         Motion driveOne = new Motion();
         if (spikeLocation == 3) {
@@ -56,14 +61,19 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
         else if (spikeLocation == 2) {
             driveOne.add(new MoveHoist(new MillisecondTrigger(0), hoist.hoistedPosition));
-            driveOne.add(new Strafe(new MillisecondTrigger(0), 10, 0.5, 0, -1));
-            driveOne.add(new Drive(new IndexTrigger(1, driveOne), 39, 0.6, 0));
-            driveOne.add(new Strafe(new IndexTrigger(2, driveOne), 15, -0.4, 0, -1));
+            driveOne.add(new Drive(new MillisecondTrigger(0), 10, 0.6, 270));
+            driveOne.add(new Strafe(new IndexTrigger(1, driveOne), 40, -0.5, 270, -1));
+            driveOne.add(new SpikeDrop(new IndexTrigger(2, driveOne)));
+            driveOne.add(new MoveHoist(new IndexTrigger(2, driveOne), hoist.stackPosition4));
+            driveOne.add(new Strafe(new IndexTrigger(4, driveOne), 15, -0.4, 270, -1));
 
+            /*driveOne.add(new Strafe(new MillisecondTrigger(0), 10, 0.5, 0, -1));
+            driveOne.add(new Drive(new IndexTrigger(1, driveOne), 40, 0.6, 0));
+            driveOne.add(new Strafe(new IndexTrigger(2, driveOne), 15, -0.4, 0, -1));
             driveOne.add(new SpikeDrop(new IndexTrigger(3, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
             driveOne.add(new Drive(new IndexTriggerWithDelay(5, 300, driveOne), 7, 0.35, 0));
-            driveOne.add(new Drive(new IndexTrigger(6, driveOne), 4, 0.4, 270));
+            driveOne.add(new Drive(new IndexTrigger(6, driveOne), 4, 0.4, 270));*/
 
 
         }
@@ -137,7 +147,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
         driveThree.Start(0);
 
-        if (gameTimer.milliseconds() < dropTime) {
+        if (robot.gameTimer.milliseconds() < dropTime) {
             if (previousStrafe == -1) {
                 if (spikeLocation == 1) {
                     StrafeWithInchesWithCorrection(30, -0.5, -1, 270);
@@ -145,7 +155,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
                     DriveWithCorrection(80, 270, 0.9);
                 }
                 if (spikeLocation == 2) {
-                    StrafeWithInchesWithCorrection(24, -0.5, -1, 270);
+                    StrafeWithInchesWithCorrection(25, -0.5, -1, 270);
 
                     DriveWithCorrection(80, 270, 0.9);
                 }
@@ -189,6 +199,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
 
         lift.SetPosition(lift.liftLow + 9, lift.liftLow, -1);
+        DriveWithCorrection(2, 270, 0.4);
         sleep(600);
 
         robot.webcam.closeCameraDevice();

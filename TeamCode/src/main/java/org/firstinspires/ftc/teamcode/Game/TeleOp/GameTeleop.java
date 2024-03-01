@@ -205,14 +205,14 @@ public class GameTeleop extends LinearOpMode {
             //Manual Control
             if (gamepad2.dpad_up && lastManualIncrement + 250 < robot.gameTimer.milliseconds()) {
 
-                lift.SetPosition(liftCurrent + 3, liftCurrent, -1);
-                liftCurrent = liftCurrent + 3;
+                lift.SetPosition(liftCurrent + 2, liftCurrent, -1);
+                liftCurrent = liftCurrent + 2;
                 lastManualIncrement = robot.gameTimer.milliseconds();
             }
             if (gamepad2.dpad_down && lastManualIncrement + 250 < robot.gameTimer.milliseconds()) {
 
-                lift.SetPosition(liftCurrent - 3, liftCurrent, -1);
-                liftCurrent = liftCurrent - 3;
+                lift.SetPosition(liftCurrent - 2, liftCurrent, -1);
+                liftCurrent = liftCurrent - 2;
                 lastManualIncrement = robot.gameTimer.milliseconds();
             }
 
@@ -240,7 +240,7 @@ public class GameTeleop extends LinearOpMode {
 
             //---Suspension---//
             //Servo
-            if (gamepad2.left_trigger > robot.triggerSensitivity && suspensionReset) {
+            if (gamepad2.left_trigger > robot.triggerSensitivity && suspensionReset && robot.gameTimer.seconds() > 80) {
                 if (suspensionToggle == -1) {
                     suspension.UnlockSuspension();
                     suspensionToggle = 0;

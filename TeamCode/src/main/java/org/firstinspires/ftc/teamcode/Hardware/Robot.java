@@ -40,6 +40,7 @@ public class Robot {
 
     //---Constants---//
     public double triggerSensitivity = 0.01;
+    public double OFFSET = 0;
 
     //---INTAKE---//
     public DcMotor intakeMotor;

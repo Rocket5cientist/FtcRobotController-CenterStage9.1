@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Game.Autonomous.A_StateAuto.Far.TwoThree;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Game.Autonomous.AutoControlsCombined;
 
 @Autonomous(name = "Red Left 2+3", group = "Far")
@@ -45,9 +48,10 @@ public class RedLeft2_3 extends AutoControlsCombined {
                 telemetry.update();
                 sleep(1000);
             }
+            robot.OFFSET = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             telemetry.update();
         }
-
+        robot.gameTimer.reset();
         //waitForStart();
         switchToContourPipeline();
 
@@ -151,10 +155,12 @@ public class RedLeft2_3 extends AutoControlsCombined {
             driveThree.add(new MoveHoist(new IndexTrigger(3, driveThree), hoist.stackPosition3));
 
 
-
             driveThree.Start(0);
+            telemetry.addData("timer", robot.gameTimer.seconds());
+            telemetry.update();
+       sleep(5000);
 
-            if (gameTimer.milliseconds() < dropTime) {
+       if (robot.gameTimer.seconds() < dropTime) {
                 if (spikeLocation == 1) {
                     StrafeWithInchesWithCorrection(17.5, 0.5, -1, 90);
 
@@ -201,6 +207,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
         }
 
         lift.SetPosition(lift.liftLow + 6, lift.liftLow, -1);
+        DriveWithCorrection(2, 90, 0.4);
         sleep(600);
 
         robot.webcam.closeCameraDevice();

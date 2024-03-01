@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode.Game.Autonomous.A_StateAuto.Far.TwoTwo;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Game.Autonomous.AutoControlsCombined;
 
 @Autonomous(name = "Red Left 2+2", group = "Far")
@@ -36,6 +39,7 @@ public class RedLeft2_2 extends AutoControlsCombined {
                 telemetry.update();
                 sleep(1000);
             }
+            robot.OFFSET = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
             telemetry.update();
         }
 

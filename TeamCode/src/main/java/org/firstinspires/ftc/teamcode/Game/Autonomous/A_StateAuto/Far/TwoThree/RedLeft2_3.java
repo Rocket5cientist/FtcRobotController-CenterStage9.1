@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Game.Autonomous.AutoControlsCombined;
+import org.firstinspires.ftc.vision.apriltag.AprilTagPoseFtc;
 
 @Autonomous(name = "Red Left 2+3", group = "Far")
 public class RedLeft2_3 extends AutoControlsCombined {
@@ -75,14 +76,14 @@ public class RedLeft2_3 extends AutoControlsCombined {
             driveOne.add(new SpikeDrop(new IndexTrigger(2, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(3, driveOne), hoist.stackPosition4));
 
-            driveOne.add(new Drive(new IndexTrigger(4, driveOne), 8, 0.25, 0));
+            driveOne.add(new Drive(new IndexTrigger(4, driveOne), 7, 0.25, 0));
             driveOne.add(new Drive(new IndexTrigger(5, driveOne), -10, 0.4, 90));
         }
 
         else if (spikeLocation == 2) {
             driveOne.add(new MoveHoist(new MillisecondTrigger(0), hoist.hoistedPosition));
-            driveOne.add(new CatWalk(new MillisecondTrigger(0), 40.5, -17, 0.5, 0, 0.5, 0.5));
-            driveOne.add(new SpikeDrop(new IndexTrigger(1, driveOne)));
+            driveOne.add(new CatWalk(new MillisecondTrigger(0), 40.5, -14, 0.5, 0, 0.5, 0.5));
+            driveOne.add(new SpikeDrop(new IndexTriggerWithDelay(1, 100, driveOne)));
             driveOne.add(new MoveHoist(new IndexTrigger(2, driveOne), hoist.stackPosition4));
             driveOne.add(new Drive(new IndexTrigger(2, driveOne), 8, 0.25, 0));
             driveOne.add(new Drive(new IndexTrigger(4, driveOne), -3.5, 0.4, 90));
@@ -133,17 +134,44 @@ public class RedLeft2_3 extends AutoControlsCombined {
         hoist.Hoist();
        //Strafe on backboard - based on spike position
        if (spikeLocation == 1) {
-           previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(21, -0.25, 4, 90);
+           previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(21.5, -0.25, 4, 90);
+           AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(4);
+
+           if (tagSeen != null) {
+
+               DriveWithCorrection(-(tagSeen.range - 2), 90, 0.3);
+           }
+           else {
+               DriveWithCorrection(-10, 90, 0.3);
+           }
        }
        if (spikeLocation == 2) {
             previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(26, -0.25, 5, 90);
+           AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(5);
+
+           if (tagSeen != null) {
+
+               DriveWithCorrection(-(tagSeen.range - 2), 90, 0.3);
+           }
+           else {
+               DriveWithCorrection(-10, 90, 0.3);
+           }
        }
        if (spikeLocation == 3) {
             previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(36, -0.25, 6, 90);
+           AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(6);
+
+           if (tagSeen != null) {
+
+               DriveWithCorrection(-(tagSeen.range - 2), 90, 0.3);
+           }
+           else {
+               DriveWithCorrection(-10, 90, 0.3);
+           }
        }
 
        //Drive back to backboard
-       DriveWithCorrection(-10, 90, 0.3);
+
 
        Motion driveThree = new Motion();
             //Drop pixel, raise lift, drive forward
@@ -158,7 +186,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
             driveThree.Start(0);
             telemetry.addData("timer", robot.gameTimer.seconds());
             telemetry.update();
-       sleep(5000);
+
 
        if (robot.gameTimer.seconds() < dropTime) {
                 if (spikeLocation == 1) {
@@ -187,7 +215,7 @@ public class RedLeft2_3 extends AutoControlsCombined {
                 driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
                 driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
                 driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
-                driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 90));
+                driveFour.add(new Drive(new IndexTriggerWithDelay(1, 200, driveFour), -100, 0.9, 90));
 
                 driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
 

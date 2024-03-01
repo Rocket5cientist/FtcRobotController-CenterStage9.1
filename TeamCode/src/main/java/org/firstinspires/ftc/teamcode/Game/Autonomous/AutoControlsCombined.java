@@ -42,8 +42,8 @@ public abstract class AutoControlsCombined extends LinearOpMode {
     public double DISTANCE_TOLERANCE = 0.5;
     public final double TAG_DISTANCE = 10;
 
-    public ElapsedTime moveTimer = new ElapsedTime();
-    public double dropTime = 15;
+
+    public double dropTime = 17;
 
     public void resetZeroes() {
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -242,10 +242,10 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         }
         public void Start(int millisecondDelay) {
             sleep(millisecondDelay);
-            moveTimer.reset();
+
             boolean done = false;
             while (opModeIsActive() && !done) {
-                telemetry.addData("time: ", moveTimer.milliseconds());
+
 
 
                 int totalFinished = 0;
@@ -399,7 +399,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
     public class MoveIntake extends Move {
         double moveIntakeForMilliseconds;
 
-        ElapsedTime moveTimer = new ElapsedTime();
+        double startTime = 0;
         public MoveIntake(Trigger triggerPARAM, double moveIntakeForMillisecondsPARAM) {
             super(triggerPARAM, true);
             moveIntakeForMilliseconds = moveIntakeForMillisecondsPARAM;
@@ -408,11 +408,11 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         public void Init() {
             state = MoveState.Init;
             intake.StartIntake(0.9);
-            moveTimer.reset();
+            startTime = robot.gameTimer.milliseconds();
 
         }
         public void Check() {
-            if (moveTimer.milliseconds() > moveIntakeForMilliseconds) {
+            if (robot.gameTimer.milliseconds() - startTime > moveIntakeForMilliseconds) {
                 intake.StopIntake();
                 state = MoveState.Finished;
             }
@@ -826,7 +826,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
         double liftTarget;
         double liftPast;
 
-        ElapsedTime moveTimer = new ElapsedTime();
+
         public MoveLift(Trigger triggerPARAM, double liftTargetPARAM, double liftPastPARAM) {
             super(triggerPARAM, false);
             liftTarget = liftTargetPARAM;

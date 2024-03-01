@@ -6,6 +6,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.Game.Autonomous.AutoControlsCombined;
+import org.firstinspires.ftc.vision.apriltag.AprilTagPoseFtc;
 
 @Autonomous(name = "BlueRight 2+3", group = "Far")
 public class BlueRight2_3 extends AutoControlsCombined {
@@ -125,14 +126,41 @@ public class BlueRight2_3 extends AutoControlsCombined {
         //Strafe on backboard
         if (spikeLocation == 1) {
             previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(31, 0.25, 1, 270);
+            AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(1);
+
+            if (tagSeen != null) {
+
+                DriveWithCorrection(-(tagSeen.range - 2), 270, 0.3);
+            }
+            else {
+                DriveWithCorrection(-10, 270, 0.3);
+            }
         }
         if (spikeLocation == 2) {
             previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(26, 0.25, 2, 270);
+            AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(2);
+
+            if (tagSeen != null) {
+
+                DriveWithCorrection(-(tagSeen.range - 2), 270, 0.3);
+            }
+            else {
+                DriveWithCorrection(-10, 270, 0.3);
+            }
         }
         if (spikeLocation == 3) {
             previousStrafe = StrafeWithInchesWithCorrectionWithDistanceSensors(21, 0.25, 3, 270);
+            AprilTagPoseFtc tagSeen = robot.getTargetAprilTagPos(3);
+
+            if (tagSeen != null) {
+
+                DriveWithCorrection(-(tagSeen.range - 2), 270, 0.3);
+            }
+            else {
+                DriveWithCorrection(-10, 270, 0.3);
+            }
         }
-        DriveWithCorrection(-10, 270, 0.3);
+
 
         Motion driveThree = new Motion();
         //Drop pixel and move back to stack
@@ -147,7 +175,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
         driveThree.Start(0);
 
-        if (robot.gameTimer.milliseconds() < dropTime) {
+        if (robot.gameTimer.seconds() < dropTime) {
             if (previousStrafe == -1) {
                 if (spikeLocation == 1) {
                     StrafeWithInchesWithCorrection(30, -0.5, -1, 270);
@@ -178,7 +206,7 @@ public class BlueRight2_3 extends AutoControlsCombined {
             driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
             driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
             driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
-            driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 270));
+            driveFour.add(new Drive(new IndexTriggerWithDelay(1, 300, driveFour), -103, 0.9, 270));
 
             driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
 

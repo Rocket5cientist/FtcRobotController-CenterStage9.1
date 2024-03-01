@@ -41,6 +41,7 @@ public abstract class AutoControlsCombined extends LinearOpMode {
     public final double TAG_DISTANCE = 10;
 
     public ElapsedTime gameTimer = new ElapsedTime();
+    public double dropTime = 20000;
 
     public void resetZeroes() {
         robot.liftMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

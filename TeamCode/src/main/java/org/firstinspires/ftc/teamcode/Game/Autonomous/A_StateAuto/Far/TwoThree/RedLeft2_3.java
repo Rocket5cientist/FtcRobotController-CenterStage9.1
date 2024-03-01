@@ -152,62 +152,54 @@ public class RedLeft2_3 extends AutoControlsCombined {
 
 
 
-        driveThree.Start(0);
+            driveThree.Start(0);
+
+            if (gameTimer.milliseconds() < dropTime) {
+                if (spikeLocation == 1) {
+                    StrafeWithInchesWithCorrection(17.5, 0.5, -1, 90);
+
+                    DriveWithCorrection(80, 90, 0.9);
+                }
+                if (spikeLocation == 2) {
+                    StrafeWithInchesWithCorrection(26, 0.5, -1, 90);
+                    //22.5 ORIGINALLY
+                    DriveWithCorrection(80, 90, 0.9);
+                }
+                if (spikeLocation == 3) {
+                    StrafeWithInchesWithCorrection(29, 0.5, -1, 90);
+
+                    DriveWithCorrection(80, 90, 0.9);
+                }
 
 
-        if (spikeLocation == 1) {
-            //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 18, 0.5, 90, 0.5, new Vision(), 1));
-            StrafeWithInchesWithCorrection(17.5, 0.5, -1, 90);
+                //Align to stack
 
-            DriveWithCorrection(80, 90, 0.9);
-        }
-        if (spikeLocation == 2) {
-            //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 23, 0.5, 90, 0.5, new Vision(), 1));
-            StrafeWithInchesWithCorrection(26, 0.5, -1, 90);
-            //22.5 ORIGINALLY
-            DriveWithCorrection(80, 90, 0.9);
-        }
-        if (spikeLocation == 3) {
-            //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 29, 0.5, 90, 0.5, new Vision(), 1));
-            StrafeWithInchesWithCorrection(29, 0.5, -1, 90);
+                DriveAtAngleToStack(24.5, .2);
 
-            DriveWithCorrection(80, 90, 0.9);
-        }
+                Motion driveFour = new Motion();
+                //Intake pixels and move to backboard
+                driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
+                driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
+                driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
+                driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 90));
+
+                driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
 
 
-        /*
-        StrafeWithInchesWithCorrection(previousStrafe - 4, 0.8, -1, 90);
-        DriveWithCorrection(76, 90, 1);
-         */
-
-        //Align to stack
-
-        DriveAtAngleToStack(24.5, .2);
-
-        Motion driveFour = new Motion();
-            //Intake pixels and move to backboard
-            driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
-            driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
-            driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
-            driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 90));
-
-            driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
+                driveFour.Start(0);
+                //Strafe along board
+                if (spikeLocation == 1) {
+                    StrafeWithInchesWithCorrectionWithDistanceSensors(33, -0.3, 5, 90);
+                } else {
+                    StrafeWithInchesWithCorrectionWithDistanceSensors(21, -0.3, 4, 90);
+                }
 
 
-
-
-        driveFour.Start(0);
-        //Strafe along board
-        if (spikeLocation == 1) {
-            StrafeWithInchesWithCorrectionWithDistanceSensors(33, -0.3, 5, 90);
-        } else {
-            StrafeWithInchesWithCorrectionWithDistanceSensors(21, -0.3, 4, 90);
+                DriveWithCorrection(-10, 90, 0.3);
+                dropper.OpenDropper();
+                sleep(500);
         }
 
-
-        DriveWithCorrection(-10, 90, 0.3);
-        dropper.OpenDropper();
-        sleep(500);
         lift.SetPosition(lift.liftLow + 6, lift.liftLow, -1);
         sleep(600);
 

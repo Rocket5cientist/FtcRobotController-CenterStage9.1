@@ -137,62 +137,57 @@ public class BlueRight2_3 extends AutoControlsCombined {
 
         driveThree.Start(0);
 
-        if (previousStrafe == -1) {
-            if (spikeLocation == 1) {
-                //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 18, 0.5, 90, 0.5, new Vision(), 1));
-                StrafeWithInchesWithCorrection(30, -0.5, -1, 270);
+        if (gameTimer.milliseconds() < dropTime) {
+            if (previousStrafe == -1) {
+                if (spikeLocation == 1) {
+                    StrafeWithInchesWithCorrection(30, -0.5, -1, 270);
 
+                    DriveWithCorrection(80, 270, 0.9);
+                }
+                if (spikeLocation == 2) {
+                    StrafeWithInchesWithCorrection(24, -0.5, -1, 270);
+
+                    DriveWithCorrection(80, 270, 0.9);
+                }
+                if (spikeLocation == 3) {
+                    StrafeWithInchesWithCorrection(19, -0.5, -1, 270);
+
+                    DriveWithCorrection(80, 270, 0.9);
+                }
+            } else {
+                StrafeWithInchesWithCorrection(previousStrafe, -0.5, -1, 270);
                 DriveWithCorrection(80, 270, 0.9);
             }
-            if (spikeLocation == 2) {
-                //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 23, 0.5, 90, 0.5, new Vision(), 1));
-                StrafeWithInchesWithCorrection(24, -0.5, -1, 270);
 
-                DriveWithCorrection(80, 270, 0.9);
-            }
+            //Align to stack
+
+            DriveAtAngleToStack(24.5, .2);
+
+            Motion driveFour = new Motion();
+            //Intake pixels and move to backboard
+            driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
+            driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
+            driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
+            driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 270));
+
+            driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
+
+
+
+            driveFour.Start(0);
+            //Strafe along board
             if (spikeLocation == 3) {
-                //driveThree.add(new CatWalk(new IndexTrigger(2, driveThree), 85, 29, 0.5, 90, 0.5, new Vision(), 1));
-                StrafeWithInchesWithCorrection(19, -0.5, -1, 270);
-
-                DriveWithCorrection(80, 270, 0.9);
+                StrafeWithInchesWithCorrectionWithDistanceSensors(25, 0.3, 2, 270);
+            } else {
+                StrafeWithInchesWithCorrectionWithDistanceSensors(21, 0.3, 3, 270);
             }
-        } else {
-            StrafeWithInchesWithCorrection(previousStrafe, -0.5, -1, 270);
-            DriveWithCorrection(80, 270, 0.9);
+
+            DriveWithCorrection(-10, 270, 0.3);
+            dropper.OpenDropper();
+            sleep(500);
         }
 
 
-        /*
-        StrafeWithInchesWithCorrection(previousStrafe - 4, 0.8, -1, 90);
-        DriveWithCorrection(76, 90, 1);
-         */
-
-        //Align to stack
-
-        DriveAtAngleToStack(24.5, .2);
-
-        Motion driveFour = new Motion();
-        //Intake pixels and move to backboard
-        driveFour.add(new MoveIntake(new MillisecondTrigger(0), 1800));
-        driveFour.add(new MoveHoist(new IndexTrigger(0, driveFour), hoist.stackPosition3));
-        driveFour.add(new MoveIntake(new IndexTrigger(1, driveFour), 1800));
-        driveFour.add(new Drive(new MillisecondTrigger(1500), -100, 0.9, 270));
-
-        driveFour.add(new MoveLift(new IndexTrigger(3, driveFour), lift.liftLow + 2, 0));
-
-
-
-        driveFour.Start(0);
-        //Strafe along board
-        if (spikeLocation == 3) {
-            StrafeWithInchesWithCorrectionWithDistanceSensors(25, 0.3, 2, 270);
-        } else {
-            StrafeWithInchesWithCorrectionWithDistanceSensors(21, 0.3, 3, 270);
-        }
-
-        DriveWithCorrection(-10, 270, 0.3);
-        dropper.OpenDropper();
-        sleep(500);
         lift.SetPosition(lift.liftLow + 9, lift.liftLow, -1);
         sleep(600);
 
